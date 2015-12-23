@@ -47,7 +47,7 @@ public class CarouselFigurePager extends LazyViewPager {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 currPos = position;
-                LogUtil.e("currPos:" + currPos + "----------------------------");
+                LogUtil.e("currPos:" + currPos + "---------------------------");
             }
 
             @Override
