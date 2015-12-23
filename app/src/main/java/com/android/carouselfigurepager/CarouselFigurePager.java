@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class CarouselFigurePager extends LazyViewPager {
                 handler.obtainMessage().sendToTarget();
 //                LogUtil.e("currPos:" + currPos + "-------------------------");
             }
-        }, 1500);
+        }, 2500);
     }
 
     private class Adapter extends PagerAdapter {
@@ -74,7 +73,6 @@ public class CarouselFigurePager extends LazyViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-//            LogUtil.e("instantiateItem:" + position + "-------------------------------");
             ImageView imageView = new ImageView(getContext());
             x.image().bind(imageView, imgList.get(position));
             container.addView(imageView);

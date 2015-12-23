@@ -58,8 +58,6 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import org.xutils.common.util.LogUtil;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -841,7 +839,6 @@ public class LazyViewPager extends ViewGroup {
         int sy = getScrollY();
         int dx = x - sx;
         int dy = y - sy;
-//        LogUtil.e("x:" + x + "--y:" + y + "--sx:" + sx + "--sy:" + sy + "--dx:" + dx + "--dy:" + dy + "--------------");
         if (dx == 0 && dy == 0) {
             completeScroll(false);
             populate();
@@ -868,12 +865,11 @@ public class LazyViewPager extends ViewGroup {
             duration = (int) ((pageDelta + 1) * 100);
         }
         duration = Math.min(duration, MAX_SETTLE_DURATION);
+        // 防止回滚
         if (dx < 0) {
-            x = 0;
             sx = dx / (mItems.size() - 1);
-            dx = x - sx;
+            dx = Math.abs(sx);
         }
-        LogUtil.e("x:" + x + "--sx:" + sx + "--dx:" + dx + "--------------");
         mScroller.startScroll(sx, sy, dx, dy, duration);
         ViewCompat.postInvalidateOnAnimation(this);
     }

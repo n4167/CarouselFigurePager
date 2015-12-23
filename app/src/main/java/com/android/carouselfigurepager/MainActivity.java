@@ -50,7 +50,6 @@ public class MainActivity extends Activity {
         carouselFigurePager.start();
         rl_carousel_figure_imgs.addView(carouselFigurePager);
 
-
     }
 
     private class Adapter extends BaseAdapter {
