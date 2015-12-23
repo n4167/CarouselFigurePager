@@ -8,7 +8,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -32,10 +34,36 @@ public class CarouselFigurePager extends LazyViewPager {
     private List<String> imgList = new ArrayList<>();
     private Adapter adapter;
     private int currPos = 0;
+    private List<View> dotList = new ArrayList<>();
+    private LinearLayout ll_dots;
 
-    public CarouselFigurePager(Context context, List<String> imgList) {
+    public CarouselFigurePager(Context context, final List<String> imgList, LinearLayout relativeLayout) {
         super(context);
         this.imgList = imgList;
+        this.ll_dots = relativeLayout;
+        initDots();
+        this.setOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                for (int i = 0; i < imgList.size(); i++) {
+                    if (i == position) {
+                        dotList.get(i).setBackgroundResource(R.mipmap.dot_focus);
+                    } else {
+                        dotList.get(i).setBackgroundResource(R.mipmap.dot_normal);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public CarouselFigurePager(Context context, AttributeSet attrs) {
@@ -57,6 +85,25 @@ public class CarouselFigurePager extends LazyViewPager {
 //                LogUtil.e("currPos:" + currPos + "-------------------------");
             }
         }, 2500);
+    }
+
+    public void initDots() {
+        ll_dots.removeAllViews();
+        dotList.clear();
+        if (ll_dots != null) {
+            LogUtil.e("initDots-----------------");
+            ll_dots.removeAllViews();
+            dotList.clear();
+            for (int i = 0; i < imgList.size(); i++) {
+                View view = new View(getContext());
+                view.setBackgroundResource(R.mipmap.dot_normal);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
+                params.setMargins(5, 0, 5, 0);
+                ll_dots.addView(view, params);
+                dotList.add(view);
+            }
+            dotList.get(0).setBackgroundResource(R.mipmap.dot_focus);
+        }
     }
 
     private class Adapter extends PagerAdapter {

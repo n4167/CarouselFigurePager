@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,10 +24,10 @@ public class MainActivity extends Activity {
     private ListView lv_main;
 
     private RelativeLayout rl_carousel_figure_imgs;
-
+    private LinearLayout ll_carousel_figure_dots;
     private Adapter adapter;
     private List<String> imgs = new ArrayList<>();
-
+    private List<View> dotList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
         x.view().inject(this);
         View view = View.inflate(getApplicationContext(), R.layout.view_carousel_figure, null);
         rl_carousel_figure_imgs = (RelativeLayout) view.findViewById(R.id.rl_carousel_figure_imgs);
+        ll_carousel_figure_dots = (LinearLayout) view.findViewById(R.id.ll_carousel_figure_dots);
         lv_main.addHeaderView(view);
         if (adapter == null) {
             adapter = new Adapter();
@@ -46,10 +48,25 @@ public class MainActivity extends Activity {
         imgs.add("http://www.xiaoxiongbizhi.com/wallpapers/__85/1/9/19r0an0jm.jpg");
         imgs.add("http://www.xiaoxiongbizhi.com/wallpapers/__85/y/w/ywzwdjof0.jpg");
         imgs.add("http://image.xcar.com.cn/attachments/a/day_130709/2013070923_3b9f49e9b25948120c73Wr8Gwv8sodLh.jpg");
-        CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), imgs);
-        carouselFigurePager.start();
+//        test();
+        CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), imgs, ll_carousel_figure_dots);
         rl_carousel_figure_imgs.addView(carouselFigurePager);
+        carouselFigurePager.start();
 
+    }
+
+    private void test() {
+        ll_carousel_figure_dots.removeAllViews();
+        dotList.clear();
+        for (int i = 0; i < imgs.size(); i++) {
+            View view = new View(getApplicationContext());
+            view.setBackgroundResource(R.mipmap.dot_normal);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(5, 5);
+            params.setMargins(5, 0, 5, 0);
+            ll_carousel_figure_dots.addView(view, params);
+            dotList.add(view);
+        }
+        dotList.get(0).setBackgroundResource(R.mipmap.dot_focus);
     }
 
     private class Adapter extends BaseAdapter {
