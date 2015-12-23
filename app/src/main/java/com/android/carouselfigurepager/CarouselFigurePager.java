@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,6 +46,12 @@ public class CarouselFigurePager extends LazyViewPager {
         this.setOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                currPos = position;
+                LogUtil.e("currPos:" + currPos + "----------------------------");
+            }
+
+            @Override
+            public void onPageSelected(int position) {
                 for (int i = 0; i < imgList.size(); i++) {
                     if (i == position) {
                         dotList.get(i).setBackgroundResource(R.mipmap.dot_focus);
@@ -52,10 +59,6 @@ public class CarouselFigurePager extends LazyViewPager {
                         dotList.get(i).setBackgroundResource(R.mipmap.dot_normal);
                     }
                 }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
 
             }
 
@@ -77,15 +80,16 @@ public class CarouselFigurePager extends LazyViewPager {
         } else {
             adapter.notifyDataSetChanged();
         }
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                currPos = (currPos + 1) % imgList.size();
-                handler.obtainMessage().sendToTarget();
-//                LogUtil.e("currPos:" + currPos + "-------------------------");
-            }
-        }, 2500);
+        handler.postDelayed(runnable, 2500);
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            currPos = (currPos + 1) % imgList.size();
+            handler.obtainMessage().sendToTarget();
+        }
+    };
 
     public void initDots() {
         ll_dots.removeAllViews();
@@ -123,6 +127,23 @@ public class CarouselFigurePager extends LazyViewPager {
             ImageView imageView = new ImageView(getContext());
             x.image().bind(imageView, imgList.get(position));
             container.addView(imageView);
+            imageView.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            handler.removeCallbacks(runnable);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            start();
+                            break;
+                        case MotionEvent.ACTION_CANCEL:
+                            start();
+                            break;
+                    }
+                    return true;
+                }
+            });
             return imageView;
         }
 
