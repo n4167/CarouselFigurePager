@@ -4,12 +4,12 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -18,19 +18,21 @@ import java.util.List;
 /**
  * Created by weidai on 2015/12/23.
  */
-public class CarouselFigurePager extends ViewPager {
+public class CarouselFigurePager extends LazyViewPager {
 
     private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            CarouselFigurePager.this.setCurrentItem(currPos);
             start();
         }
     };
 
     private List<String> imgList = new ArrayList<>();
     private Adapter adapter;
+    private int currPos = 0;
 
     public CarouselFigurePager(Context context, List<String> imgList) {
         super(context);
@@ -51,7 +53,9 @@ public class CarouselFigurePager extends ViewPager {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                currPos = (currPos + 1) % imgList.size();
                 handler.obtainMessage().sendToTarget();
+//                LogUtil.e("currPos:" + currPos + "-------------------------");
             }
         }, 1500);
     }
@@ -70,6 +74,7 @@ public class CarouselFigurePager extends ViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+//            LogUtil.e("instantiateItem:" + position + "-------------------------------");
             ImageView imageView = new ImageView(getContext());
             x.image().bind(imageView, imgList.get(position));
             container.addView(imageView);

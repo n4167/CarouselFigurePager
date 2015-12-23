@@ -45,8 +45,6 @@ public class MainActivity extends Activity {
         imgs.add("http://img.kutoo8.com//upload/image/78018037/201305280911_960x540.jpg");
         imgs.add("http://www.xiaoxiongbizhi.com/wallpapers/__85/1/9/19r0an0jm.jpg");
         imgs.add("http://www.xiaoxiongbizhi.com/wallpapers/__85/y/w/ywzwdjof0.jpg");
-        imgs.add("http://pic3.nipic.com/20090708/2484872_105002096_2.jpg");
-        imgs.add("http://pic19.nipic.com/20120301/7447430_190817489000_2.jpg");
         imgs.add("http://image.xcar.com.cn/attachments/a/day_130709/2013070923_3b9f49e9b25948120c73Wr8Gwv8sodLh.jpg");
         CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), imgs);
         carouselFigurePager.start();
