@@ -76,7 +76,6 @@ public class MainActivity extends Activity {
         ////////////////////////////////////////////////////////////////////////////////
     }
 
-
     private class Adapter extends BaseAdapter {
 
         @Override
