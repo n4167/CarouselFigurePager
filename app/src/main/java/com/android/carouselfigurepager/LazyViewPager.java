@@ -97,7 +97,7 @@ import java.util.List;
  * complete}
  */
 public class LazyViewPager extends ViewGroup {
-    private int temp = 0;
+    private int temp = 0;   //保存最大值
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
 
