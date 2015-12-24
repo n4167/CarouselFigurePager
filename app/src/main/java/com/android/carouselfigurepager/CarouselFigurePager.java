@@ -129,7 +129,7 @@ public class CarouselFigurePager extends LazyViewPager {
     }
 
     private void initTitles() {
-        if (titleList.size() > 0) {
+        if (null != titleList && titleList.size() > 0) {
             for (int i = 0; i < titleList.size(); i++) {
                 textView.setText(titleList.get(i));
             }
