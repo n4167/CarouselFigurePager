@@ -40,16 +40,13 @@ public class CarouselFigurePager extends LazyViewPager {
     private LinearLayout ll_dots;
     //    private RunnableTask runnableTask;
     private TextView textView;
+    private OnClickListener onClickListener;
 
-    public CarouselFigurePager(Context context, final List<String> imgList, final List<String> titleList, LinearLayout relativeLayout, final TextView textView) {
+
+    public CarouselFigurePager(Context context, OnClickListener onClickListener) {
         super(context);
-        this.imgList = imgList;
-        this.titleList = titleList;
-        this.ll_dots = relativeLayout;
-        this.textView = textView;
+        this.onClickListener = onClickListener;
 //        runnableTask = new RunnableTask();
-        initDots();
-        initTitles();
         this.setOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -79,6 +76,16 @@ public class CarouselFigurePager extends LazyViewPager {
 
     public CarouselFigurePager(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public void init(final List<String> imgList, final List<String> titleList, LinearLayout relativeLayout, final TextView textView) {
+        this.imgList = imgList;
+        this.titleList = titleList;
+        this.ll_dots = relativeLayout;
+        this.textView = textView;
+        initDots();
+        initTitles();
+        start();
     }
 
     public void start() {
@@ -135,6 +142,16 @@ public class CarouselFigurePager extends LazyViewPager {
             }
         }
         textView.setText(titleList.get(0));
+    }
+
+    public interface OnClickListener {
+        public void onClick();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDetachedFromWindow();
     }
 
     private class Adapter extends PagerAdapter {

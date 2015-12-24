@@ -57,10 +57,14 @@ public class MainActivity extends Activity {
         titles.add("ccccccccccc");
         titles.add("ddddddddddd");
 
-        CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), imgs, titles, ll_carousel_figure_dots, tv_carousel_figure_title);
-        rl_carousel_figure_imgs.addView(carouselFigurePager);
-        carouselFigurePager.start();
+        CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), new CarouselFigurePager.OnClickListener() {
+            @Override
+            public void onClick() {
 
+            }
+        });
+        rl_carousel_figure_imgs.addView(carouselFigurePager);
+        carouselFigurePager.init(imgs, titles, ll_carousel_figure_dots, tv_carousel_figure_title);
     }
 
 
