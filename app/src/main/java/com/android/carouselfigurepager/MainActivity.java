@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.xutils.common.util.LogUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
     private Adapter adapter;
     private List<String> imgs = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
+    private List<String> urls = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +59,19 @@ public class MainActivity extends Activity {
         titles.add("ccccccccccc");
         titles.add("ddddddddddd");
 
+        urls.add("111111111111111111111");
+        urls.add("222222222222222222222");
+        urls.add("333333333333333333333");
+        urls.add("444444444444444444444");
+
         CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), new CarouselFigurePager.OnClickListener() {
             @Override
-            public void onClick() {
-
+            public void onClick(String url) {
+                LogUtil.e("url:" + url);
             }
         });
         rl_carousel_figure_imgs.addView(carouselFigurePager);
-        carouselFigurePager.init(imgs, titles, ll_carousel_figure_dots, tv_carousel_figure_title);
+        carouselFigurePager.init(imgs, urls, titles, ll_carousel_figure_dots, tv_carousel_figure_title);
     }
 
 

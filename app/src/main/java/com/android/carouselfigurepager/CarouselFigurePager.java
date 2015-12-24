@@ -34,6 +34,7 @@ public class CarouselFigurePager extends LazyViewPager {
 
     private List<String> imgList = new ArrayList<>();
     private List<String> titleList = new ArrayList<>();
+    private List<String> urlList = new ArrayList<>();
     private Adapter adapter;
     private int currPos = 0;
     private List<View> dotList = new ArrayList<>();
@@ -78,8 +79,9 @@ public class CarouselFigurePager extends LazyViewPager {
         super(context, attrs);
     }
 
-    public void init(final List<String> imgList, final List<String> titleList, LinearLayout relativeLayout, final TextView textView) {
+    public void init(final List<String> imgList, List<String> urlList, final List<String> titleList, LinearLayout relativeLayout, final TextView textView) {
         this.imgList = imgList;
+        this.urlList = urlList;
         this.titleList = titleList;
         this.ll_dots = relativeLayout;
         this.textView = textView;
@@ -145,7 +147,7 @@ public class CarouselFigurePager extends LazyViewPager {
     }
 
     public interface OnClickListener {
-        public void onClick();
+        public void onClick(String url);
     }
 
     @Override
@@ -167,7 +169,7 @@ public class CarouselFigurePager extends LazyViewPager {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             ImageView imageView = new ImageView(getContext());
             x.image().bind(imageView, imgList.get(position));
             container.addView(imageView);
@@ -180,6 +182,7 @@ public class CarouselFigurePager extends LazyViewPager {
                             break;
                         case MotionEvent.ACTION_UP:
                             start();
+                            onClickListener.onClick(urlList.get(position));
                             break;
                         case MotionEvent.ACTION_CANCEL:
                             start();
