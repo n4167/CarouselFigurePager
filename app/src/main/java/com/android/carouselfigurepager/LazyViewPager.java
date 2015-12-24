@@ -58,6 +58,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
+import org.xutils.common.util.LogUtil;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,12 +97,13 @@ import java.util.List;
  * complete}
  */
 public class LazyViewPager extends ViewGroup {
+    private int temp = 0;
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
 
     private static final boolean USE_CACHE = false;
 
-    private static final int DEFAULT_OFFSCREEN_PAGES = 0;
+    private static final int DEFAULT_OFFSCREEN_PAGES = 1;
     private static final int MAX_SETTLE_DURATION = 600; // ms
     private static final int MIN_DISTANCE_FOR_FLING = 25; // dips
 
@@ -845,6 +848,8 @@ public class LazyViewPager extends ViewGroup {
             setScrollState(SCROLL_STATE_IDLE);
             return;
         }
+        if (x > temp)
+            temp = x;
 
         setScrollingCacheEnabled(true);
         setScrollState(SCROLL_STATE_SETTLING);
@@ -865,11 +870,13 @@ public class LazyViewPager extends ViewGroup {
             duration = (int) ((pageDelta + 1) * 100);
         }
         duration = Math.min(duration, MAX_SETTLE_DURATION);
+        LogUtil.e("x:" + x + "sx:" + sx + "dx:" + dx);
         // 防止回滚
-        if (dx < 0) {
+        if (dx < 0 && sx == temp) {
             sx = dx / (mItems.size() - 1);
             dx = Math.abs(sx);
         }
+        LogUtil.e("x:" + x + "sx:" + sx + "dx:" + dx);
         mScroller.startScroll(sx, sy, dx, dy, duration);
         ViewCompat.postInvalidateOnAnimation(this);
     }

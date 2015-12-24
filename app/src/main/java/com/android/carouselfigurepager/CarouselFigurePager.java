@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import org.xutils.common.util.LogUtil;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -33,25 +33,33 @@ public class CarouselFigurePager extends LazyViewPager {
     };
 
     private List<String> imgList = new ArrayList<>();
+    private List<String> titleList = new ArrayList<>();
     private Adapter adapter;
     private int currPos = 0;
     private List<View> dotList = new ArrayList<>();
     private LinearLayout ll_dots;
+    //    private RunnableTask runnableTask;
+    private TextView textView;
 
-    public CarouselFigurePager(Context context, final List<String> imgList, LinearLayout relativeLayout) {
+    public CarouselFigurePager(Context context, final List<String> imgList, final List<String> titleList, LinearLayout relativeLayout, final TextView textView) {
         super(context);
         this.imgList = imgList;
+        this.titleList = titleList;
         this.ll_dots = relativeLayout;
+        this.textView = textView;
+//        runnableTask = new RunnableTask();
         initDots();
+        initTitles();
         this.setOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                currPos = position;
-                LogUtil.e("currPos:" + currPos + "--------------------------");
+
             }
 
             @Override
             public void onPageSelected(int position) {
+                currPos = position;
+                textView.setText(titleList.get(position));
                 for (int i = 0; i < imgList.size(); i++) {
                     if (i == position) {
                         dotList.get(i).setBackgroundResource(R.mipmap.dot_focus);
@@ -91,11 +99,21 @@ public class CarouselFigurePager extends LazyViewPager {
         }
     };
 
-    public void initDots() {
+//    private class RunnableTask implements Runnable {
+//
+//        @Override
+//        public void run() {
+//            if (imgList.size() > 0) {
+//                currPos = (currPos + 1) % imgList.size();
+//                handler.obtainMessage().sendToTarget();
+//            }
+//        }
+//    }
+
+    private void initDots() {
         ll_dots.removeAllViews();
         dotList.clear();
         if (ll_dots != null) {
-            LogUtil.e("initDots-----------------");
             ll_dots.removeAllViews();
             dotList.clear();
             for (int i = 0; i < imgList.size(); i++) {
@@ -108,6 +126,15 @@ public class CarouselFigurePager extends LazyViewPager {
             }
             dotList.get(0).setBackgroundResource(R.mipmap.dot_focus);
         }
+    }
+
+    private void initTitles() {
+        if (titleList.size() > 0) {
+            for (int i = 0; i < titleList.size(); i++) {
+                textView.setText(titleList.get(i));
+            }
+        }
+        textView.setText(titleList.get(0));
     }
 
     private class Adapter extends PagerAdapter {
@@ -132,7 +159,7 @@ public class CarouselFigurePager extends LazyViewPager {
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            handler.removeCallbacks(runnable);
+                            handler.removeCallbacksAndMessages(null);
                             break;
                         case MotionEvent.ACTION_UP:
                             start();
