@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
         urls.add("333333333333333333333");
         urls.add("444444444444444444444");
 
+        ////////////////////////////////////////////////////////////////////////////////
         CarouselFigurePager carouselFigurePager = new CarouselFigurePager(getApplicationContext(), new CarouselFigurePager.OnClickListener() {
             @Override
             public void onClick(String url) {
@@ -72,6 +73,7 @@ public class MainActivity extends Activity {
         });
         rl_carousel_figure_imgs.addView(carouselFigurePager);
         carouselFigurePager.init(imgs, urls, titles, ll_carousel_figure_dots, tv_carousel_figure_title);
+        ////////////////////////////////////////////////////////////////////////////////
     }
 
 

@@ -44,6 +44,12 @@ public class CarouselFigurePager extends LazyViewPager {
     private OnClickListener onClickListener;
 
 
+    /**
+     * 构造函数
+     *
+     * @param context
+     * @param onClickListener 点击事件监听
+     */
     public CarouselFigurePager(Context context, OnClickListener onClickListener) {
         super(context);
         this.onClickListener = onClickListener;
@@ -79,6 +85,15 @@ public class CarouselFigurePager extends LazyViewPager {
         super(context, attrs);
     }
 
+    /**
+     * 初始化相关数据
+     *
+     * @param imgList        图片
+     * @param urlList        链接地址
+     * @param titleList      标题
+     * @param relativeLayout 点布局容器
+     * @param textView       标题布局
+     */
     public void init(final List<String> imgList, List<String> urlList, final List<String> titleList, LinearLayout relativeLayout, final TextView textView) {
         this.imgList = imgList;
         this.urlList = urlList;
@@ -90,6 +105,9 @@ public class CarouselFigurePager extends LazyViewPager {
         start();
     }
 
+    /**
+     * 开始轮播
+     */
     public void start() {
         if (adapter == null) {
             adapter = new Adapter();
@@ -119,6 +137,9 @@ public class CarouselFigurePager extends LazyViewPager {
 //        }
 //    }
 
+    /**
+     * 初始化点
+     */
     private void initDots() {
         ll_dots.removeAllViews();
         dotList.clear();
@@ -137,6 +158,9 @@ public class CarouselFigurePager extends LazyViewPager {
         }
     }
 
+    /**
+     * 初始化标题
+     */
     private void initTitles() {
         if (null != titleList && titleList.size() > 0) {
             for (int i = 0; i < titleList.size(); i++) {
@@ -146,6 +170,9 @@ public class CarouselFigurePager extends LazyViewPager {
         textView.setText(titleList.get(0));
     }
 
+    /**
+     * 点击事件监听接口
+     */
     public interface OnClickListener {
         public void onClick(String url);
     }
@@ -156,6 +183,9 @@ public class CarouselFigurePager extends LazyViewPager {
         super.onDetachedFromWindow();
     }
 
+    /**
+     * ViewPager适配器
+     */
     private class Adapter extends PagerAdapter {
 
         @Override
