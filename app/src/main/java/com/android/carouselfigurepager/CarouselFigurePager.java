@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by weidai on 2015/12/23.
  */
-public class CarouselFigurePager extends LazyViewPager {
+public class CarouselFigurePager extends MyViewPager {
 
     private Handler handler = new Handler() {
 

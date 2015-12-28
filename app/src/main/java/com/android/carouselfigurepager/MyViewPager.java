@@ -96,7 +96,7 @@ import java.util.List;
  * {@sample development/samples/Support13Demos/src/com/example/android/supportv13/app/ActionBarTabsPager.java
  * complete}
  */
-public class LazyViewPager extends ViewGroup {
+public class MyViewPager extends ViewGroup {
     private int temp = 0;   //保存最大值
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
@@ -357,12 +357,12 @@ public class LazyViewPager extends ViewGroup {
     interface Decor {
     }
 
-    public LazyViewPager(Context context) {
+    public MyViewPager(Context context) {
         super(context);
         initViewPager();
     }
 
-    public LazyViewPager(Context context, AttributeSet attrs) {
+    public MyViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViewPager();
     }
